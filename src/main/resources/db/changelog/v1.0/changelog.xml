@@ -8,7 +8,8 @@
 
     <changeSet author="ch" id="changelog-1.0" context="prod">
         <createTable tableName="user">
-            <column name="id" type="serial" autoIncrement="true">
+<!--            <column name="id" type="serial" autoIncrement="true">-->
+            <column name="id" type="serial" >
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="first_name" type="varchar(255)">
