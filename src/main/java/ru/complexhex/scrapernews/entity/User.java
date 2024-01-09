@@ -1,4 +1,4 @@
-package ru.complexhex.scrapernews.model;
+package ru.complexhex.scrapernews.entity;
 
 
 import jakarta.persistence.*;
