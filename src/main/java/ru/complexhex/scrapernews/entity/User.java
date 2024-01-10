@@ -1,6 +1,5 @@
 package ru.complexhex.scrapernews.entity;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
