@@ -3,6 +3,7 @@ package ru.complexhex.scrapernews.conroller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.complexhex.scrapernews.config.BotInitializer;
 import ru.complexhex.scrapernews.dto.UserDTO;
 import ru.complexhex.scrapernews.service.UserService;
 
