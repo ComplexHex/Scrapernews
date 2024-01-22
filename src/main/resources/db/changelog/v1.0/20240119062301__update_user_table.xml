@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+
+    <changeSet author="ch" id="changelog-1.1" context="prod">
+
+        <dropNotNullConstraint tableName="user" columnName="last_name" columnDataType="varchar(255)"/>
+
+        <addColumn tableName="user">
+            <column name="telegram_id" type="integer">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="user">
+            <column name="user_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <rollback>
+            <dropTable tableName="user"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

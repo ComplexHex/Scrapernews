@@ -13,7 +13,9 @@ import lombok.ToString;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="user_generator", sequenceName="user_seq", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_generator")
     @Column(name = "id")
     public Integer id;
 
@@ -22,4 +24,10 @@ public class User {
 
     @Column(name = "last_name")
     public String lastName;
+
+   @Column(name = "telegram_id")
+    public Integer telegramId;
+
+   @Column(name = "user_name")
+    public  String userName;
 }

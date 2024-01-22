@@ -9,6 +9,7 @@ import ru.complexhex.scrapernews.mapper.UserMapper;
 import ru.complexhex.scrapernews.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
@@ -18,7 +19,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
 
     public List<UserDTO> getAll() {
         List<User> users = userRepository.findAll();
@@ -33,12 +33,14 @@ public class UserServiceImpl implements UserService {
         return userMapper.userToUserDTO(user);
     }
 
+    @Transactional
     @Override
     public void save(UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
         userRepository.save(user);
     }
 
+    @Transactional
     @Override
     public void updateUser(Long id, UserDTO userDTO) {
         User existingUser = userRepository.findById(id).orElseThrow();
@@ -46,6 +48,8 @@ public class UserServiceImpl implements UserService {
 
         existingUser.setFirstName(updateUser.getFirstName());
         existingUser.setLastName(updateUser.getLastName());
+        existingUser.setTelegramId(updateUser.getTelegramId());
+        existingUser.setUserName(updateUser.getUserName());
 
         userRepository.save(existingUser);
     }
@@ -55,5 +59,9 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-
+    @Override
+    public Optional<UserDTO> findByTelegramId(Long telegramId) {
+        User user = userRepository.findByTelegramId(telegramId).orElse(null);
+        return Optional.ofNullable(user).map(userMapper::userToUserDTO);
+    }
 }
