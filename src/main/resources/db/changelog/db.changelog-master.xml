@@ -8,5 +8,7 @@
     <include file="v1.0/20240119062301__update_user_table.xml" relativeToChangelogFile="true"/>
     <include file="v1.0/20240120053445__add_notnull_telegram_id.xml" relativeToChangelogFile="true"/>
     <include file="v1.0/20240120054745__add_notnull_telegram_id.xml" relativeToChangelogFile="true"/>
+    <include file="v1.0/20240123180254__add_sequence.xml" relativeToChangelogFile="true"/>
+
 
 </databaseChangeLog>

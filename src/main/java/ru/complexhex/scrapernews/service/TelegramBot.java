@@ -1,8 +1,6 @@
 package ru.complexhex.scrapernews.service;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,7 +8,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.complexhex.scrapernews.config.BotConfig;
 import ru.complexhex.scrapernews.dto.UserDTO;
-import ru.complexhex.scrapernews.entity.User;
 
 import java.util.Optional;
 
@@ -43,38 +40,40 @@ public class TelegramBot extends TelegramLongPollingBot {
 
             switch (messageText) {
                 case "/start":
+                    startBot(update, telegramId, firstName, lastName, userName, chatId);
+                    break;
+                default:
                     try {
-                        startCommandReceived(chatId, update.getMessage().getChat().getFirstName());
+                        sendMessage(chatId, messageText);
+                        System.out.println(telegramId + " " + userName + " " + chatId + " " + firstName);
                     } catch (TelegramApiException e) {
                         throw new RuntimeException(e);
                     }
-                    break;
-                default:
-                    Optional<UserDTO> existingUser = userService.findByTelegramId(telegramId);
-
-                    if (!existingUser.isPresent()) {
-                        UserDTO newUserDTO = new UserDTO();
-                        newUserDTO.setFirstName(firstName);
-                        newUserDTO.setLastName(lastName);
-                        newUserDTO.setUserName(userName);
-                        newUserDTO.setTelegramId(telegramId);
-
-                        userService.save(newUserDTO);
-
-                    } else
-                        try {
-                            sendMessage(chatId, messageText);
-                            System.out.println(telegramId + " " + userName + " " + chatId + " " + firstName);
-                        } catch (TelegramApiException e) {
-                            throw new RuntimeException(e);
-                        }
             }
         }
     }
 
-    private void startCommandReceived(long chatId, String name) throws TelegramApiException {
-        String answer = "Hi, " + name + " nice to meet you!";
+    private void startBot(Update update, long telegramId, String firstName, String lastName, String userName, long chatId) {
+        Optional<UserDTO> existingUser = userService.findByTelegramId(telegramId);
 
+        if (!existingUser.isPresent()) {
+            UserDTO newUserDTO = new UserDTO();
+            newUserDTO.setFirstName(firstName);
+            newUserDTO.setLastName(lastName);
+            newUserDTO.setUserName(userName);
+            newUserDTO.setTelegramId(telegramId);
+
+            userService.save(newUserDTO);
+        }
+        try {
+            sendHiMessage(chatId, update.getMessage().getChat().getFirstName());
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void sendHiMessage(long chatId, String name) throws TelegramApiException {
+        String answer = "Hi, " + name + " nice to meet you!";
         sendMessage(chatId, answer);
     }
 
