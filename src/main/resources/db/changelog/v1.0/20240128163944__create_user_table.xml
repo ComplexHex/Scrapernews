@@ -5,22 +5,41 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
-
     <changeSet author="ch" id="changelog-1.0" context="prod">
         <createTable tableName="user">
-            <column name="id" type="serial" >
+            <column name="id" type="serial">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
+
             <column name="first_name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
+
             <column name="last_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="telegram_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
+
+            <column name="user_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
+
+        <createSequence
+                cacheSize="1"
+                cycle="false"
+                dataType="bigint"
+                incrementBy="1"
+                maxValue="9223372036854775807"
+                minValue="1" sequenceName="user_seq"
+                startValue="1"/>
 
         <rollback>
             <dropTable tableName="user"/>
         </rollback>
+
     </changeSet>
 </databaseChangeLog>
